@@ -1,0 +1,28 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "rules": {
+    "no-console": "off",
+    "linebreak-style": "off",
+    "no-use-before-define": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "esnext": true,
+    "jasmine": false,
+    "spyOn": false,
+    "it": false,
+    "console": false,
+    "describe": false,
+    "expect": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "waits": false,
+    "waitsFor": false,
+    "runs": false,
+    "$": false,
+    "confirm": false
+  }
+}
