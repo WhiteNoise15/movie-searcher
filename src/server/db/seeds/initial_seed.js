@@ -1,7 +1,6 @@
 exports.seed = (knex, Promise) => {
   return seedUserRoles()
     .then(seedGenres)
-    .then(seedGenres)
     .then(seedMovieRoles)
     .then(seedRatings)
     .then(seedUsers)
