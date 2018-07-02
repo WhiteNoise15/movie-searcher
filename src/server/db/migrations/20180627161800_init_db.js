@@ -191,15 +191,15 @@ exports.up = function up(knex, Promise) {
 
 exports.down = function down(knex, Promise) {
   return knex.schema
+    .dropTable('movie_makers')
+    .dropTable('movie_ratings')
+    .dropTable('movies_genres')
     .dropTable('movies')
     .dropTable('genres')
-    .dropTable('movies_genres')
-    .dropTable('user_roles')
     .dropTable('users')
+    .dropTable('user_roles')
     .dropTable('ratings')
-    .dropTable('movie_ratings')
+    .dropTable('actor_roles')
     .dropTable('actors')
-    .dropTable('movie_makers')
-    .dropTable('movie_roles')
-    .dropTable('actor_roles');
+    .dropTable('movie_roles');
 };

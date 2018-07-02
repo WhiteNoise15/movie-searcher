@@ -172,10 +172,10 @@ exports.seed = (knex, Promise) => {
   }
 
   function seedMovieMakers() {
-    return knex('movies_genres')
+    return knex('movie_makers')
       .del()
       .then(() =>
-        knex('movies_genres').insert([
+        knex('movie_makers').insert([
           { movie_id: 1, actor_id: 4, role_id: 1 },
           { movie_id: 4, actor_id: 1, role_id: 1 }
         ])
