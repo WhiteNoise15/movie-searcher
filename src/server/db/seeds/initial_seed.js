@@ -1,5 +1,15 @@
 exports.seed = (knex, Promise) => {
-  return seedUserRoles().then(seedGenres);
+  return seedUserRoles()
+    .then(seedGenres)
+    .then(seedGenres)
+    .then(seedMovieRoles)
+    .then(seedRatings)
+    .then(seedUsers)
+    .then(seedActors)
+    .then(seedActorsRoles)
+    .then(seedMovies)
+    .then(seedMovieGenres)
+    .then(seedMovieMakers);
 
   function seedUserRoles() {
     return knex('user_roles')
