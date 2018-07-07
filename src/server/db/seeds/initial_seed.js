@@ -175,6 +175,7 @@ exports.seed = (knex, Promise) => {
       .del()
       .then(() =>
         knex('movie_makers').insert([
+          { movie_id: 1, actor_id: 1, role_id: 1 },
           { movie_id: 1, actor_id: 4, role_id: 1 },
           { movie_id: 4, actor_id: 1, role_id: 1 }
         ])

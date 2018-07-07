@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/server/index.js",
+    "start": "nodemon ./src/server/index.js",
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "keywords": [],
@@ -18,7 +18,8 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5"
   },
   "dependencies": {
     "knex": "^0.14.6",

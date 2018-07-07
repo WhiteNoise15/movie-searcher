@@ -30,10 +30,24 @@ function deleteMovie(id) {
     .returning('*');
 }
 
+function getMovieActors(id) {
+  return knex('movies')
+    .select(['actors.name', 'actors.sex', 'actors.age'])
+    .join('movie_makers', 'movies.id', 'movie_makers.movie_id')
+    .join('actors', 'movie_makers.actor_id', 'actors.id')
+    .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
+    .where('movies.id', id)
+    .orWhere('movie_roles.role', 'Actor')
+    .on('query', data => {
+      console.log(data.sql);
+    });
+}
+
 module.exports = {
   getAllMovies,
   getSingleMovie,
   addMovie,
   updateMovie,
-  deleteMovie
+  deleteMovie,
+  getMovieActors
 };
