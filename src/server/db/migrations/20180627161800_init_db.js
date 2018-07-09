@@ -1,11 +1,10 @@
-exports.up = function up(knex, Promise) {
+exports.up = function up(knex) {
   return createUserRolesTable()
     .then(createGenreTable)
     .then(createMovieRolesTable)
     .then(createRatingsTable)
     .then(createUserTable)
     .then(createActorsTable)
-    .then(createActorsRolesTable)
     .then(createMoviesTable)
     .then(createMovieRatinsgTable)
     .then(createMoviesGenresTable)
@@ -80,27 +79,6 @@ exports.up = function up(knex, Promise) {
       table.string('name').notNullable();
       table.integer('age').unsigned();
       table.enu('sex', ['male', 'female']);
-    });
-  }
-
-  function createActorsRolesTable() {
-    return knex.schema.createTable('actor_roles', table => {
-      table
-        .increments('id')
-        .primary()
-        .unsigned();
-      table
-        .integer('actor_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('actors');
-      table
-        .integer('role_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('movie_roles');
     });
   }
 
@@ -189,7 +167,7 @@ exports.up = function up(knex, Promise) {
   }
 };
 
-exports.down = function down(knex, Promise) {
+exports.down = function down(knex) {
   return knex.schema
     .dropTable('movie_makers')
     .dropTable('movie_ratings')
@@ -199,7 +177,6 @@ exports.down = function down(knex, Promise) {
     .dropTable('users')
     .dropTable('user_roles')
     .dropTable('ratings')
-    .dropTable('actor_roles')
     .dropTable('actors')
     .dropTable('movie_roles');
 };
