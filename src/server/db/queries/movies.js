@@ -31,16 +31,22 @@ function deleteMovie(id) {
 }
 
 function getMovieActors(id) {
-  return knex('movies')
-    .select(['actors.name', 'actors.sex', 'actors.age'])
-    .join('movie_makers', 'movies.id', 'movie_makers.movie_id')
+  return knex('movie_makers')
     .join('actors', 'movie_makers.actor_id', 'actors.id')
     .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
-    .where('movies.id', id)
-    .orWhere('movie_roles.role', 'Actor')
+    .where('movie_makers.movie_id', id)
+    .andWhere('movie_roles.role', 'Actor')
+    .select(['actors.name', 'actors.sex', 'actors.age'])
     .on('query', data => {
       console.log(data.sql);
     });
+}
+
+function getMovieGenres(id) {
+  return knex('movies_genres')
+    .join('genres', 'movies_genres.genre_id', 'genres.id')
+    .select('genres.name')
+    .where('movies_genres.movie_id', id);
 }
 
 module.exports = {
@@ -49,5 +55,6 @@ module.exports = {
   addMovie,
   updateMovie,
   deleteMovie,
-  getMovieActors
+  getMovieActors,
+  getMovieGenres
 };

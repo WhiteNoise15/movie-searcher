@@ -124,7 +124,32 @@ router.get(`/:id/actors`, async ctx => {
       ctx.status = 404;
       ctx.body = {
         status: 'error',
-        message: 'That movie does not exist.'
+        message: 'There are no actors in this movie.'
+      };
+    }
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: err.message || 'Sorry, an error has occured'
+    };
+  }
+});
+
+router.get(`/:id/genres`, async ctx => {
+  try {
+    const genres = await queries.getMovieGenres(ctx.params.id);
+    if (genres.length) {
+      ctx.status = 200;
+      ctx.body = {
+        status: 'success',
+        data: genres
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        status: 'error',
+        message: 'Movie does not have any genre'
       };
     }
   } catch (err) {
