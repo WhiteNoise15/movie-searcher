@@ -136,6 +136,31 @@ router.get(`/:id/actors`, async ctx => {
   }
 });
 
+router.get(`/:id/staff`, async ctx => {
+  try {
+    const staff = await queries.getMovieStaff(ctx.params.id);
+    if (staff && staff.length) {
+      ctx.status = 200;
+      ctx.body = {
+        status: 'success',
+        data: staff
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        status: 'error',
+        message: 'There are no staff in this movie.'
+      };
+    }
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: err.message || 'Sorry, an error has occured'
+    };
+  }
+});
+
 router.get(`/:id/genres`, async ctx => {
   try {
     const genres = await queries.getMovieGenres(ctx.params.id);

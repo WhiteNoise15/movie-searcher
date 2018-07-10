@@ -6,8 +6,10 @@ function getAllMovies() {
 
 function getSingleMovie(id) {
   return knex('movies')
-    .select('*')
-    .where({ id: parseInt(id, 10) });
+    .select(['genres.name', 'movies.id', 'movies.name as movieName'])
+    .join('movies_genres', 'movies.id', 'movies_genres.movie_id')
+    .join('genres', 'movies_genres.genre_id', 'genres.id')
+    .where({ 'movies.id': parseInt(id, 10) });
 }
 
 function addMovie(movie) {
@@ -36,10 +38,16 @@ function getMovieActors(id) {
     .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
     .where('movie_makers.movie_id', id)
     .andWhere('movie_roles.role', 'Actor')
-    .select(['actors.name', 'actors.sex', 'actors.age'])
-    .on('query', data => {
-      console.log(data.sql);
-    });
+    .select(['actors.name', 'actors.sex', 'actors.age']);
+}
+
+function getMovieStaff(id) {
+  knex('movie_makers')
+    .join('actors', 'movie_makers.actor_id', 'actors.id')
+    .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
+    .where('movie_makers.movie_id', id)
+    .andWhereNot('movie_roles.role', 'Actor')
+    .select(['actors.name', 'actors.sex', 'actors.age']);
 }
 
 function getMovieGenres(id) {
@@ -56,5 +64,6 @@ module.exports = {
   updateMovie,
   deleteMovie,
   getMovieActors,
-  getMovieGenres
+  getMovieGenres,
+  getMovieStaff
 };
