@@ -2,11 +2,11 @@ exports.up = function up(knex) {
   return createUserRolesTable()
     .then(createGenreTable)
     .then(createMovieRolesTable)
-    .then(createRatingsTable)
     .then(createUserTable)
-    .then(createActorsTable)
+    .then(createFilmmakersTable)
     .then(createMoviesTable)
     .then(createMovieRatinsgTable)
+    .then(createMovieReviewsTable)
     .then(createMoviesGenresTable)
     .then(createMovieMakersTable);
 
@@ -40,19 +40,6 @@ exports.up = function up(knex) {
     });
   }
 
-  function createRatingsTable() {
-    return knex.schema.createTable('ratings', table => {
-      table
-        .increments('id')
-        .primary()
-        .unsigned();
-      table
-        .integer('rating')
-        .unsigned()
-        .notNullable();
-    });
-  }
-
   function createUserTable() {
     return knex.schema.createTable('users', table => {
       table
@@ -70,8 +57,8 @@ exports.up = function up(knex) {
     });
   }
 
-  function createActorsTable() {
-    return knex.schema.createTable('actors', table => {
+  function createFilmmakersTable() {
+    return knex.schema.createTable('filmmakers', table => {
       table
         .increments('id')
         .primary()
@@ -111,12 +98,7 @@ exports.up = function up(knex) {
         .notNullable()
         .references('id')
         .inTable('users');
-      table
-        .integer('rating_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('ratings');
+      table.enu('rating', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     });
   }
 
@@ -146,11 +128,11 @@ exports.up = function up(knex) {
         .primary()
         .unsigned();
       table
-        .integer('actor_id')
+        .integer('filmmaker_id')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('actors');
+        .inTable('filmmakers');
       table
         .integer('movie_id')
         .unsigned()
@@ -165,18 +147,40 @@ exports.up = function up(knex) {
         .inTable('movie_roles');
     });
   }
+
+  function createMovieReviewsTable() {
+    return knex.schema.createTable('movie_reviews', table => {
+      table
+        .increments('id')
+        .primary()
+        .unsigned();
+      table
+        .integer('movie_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('movies');
+      table
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users');
+      table.text('review').notNullable();
+    });
+  }
 };
 
 exports.down = function down(knex) {
   return knex.schema
     .dropTable('movie_makers')
     .dropTable('movie_ratings')
+    .dropTable('movie_reviews')
     .dropTable('movies_genres')
     .dropTable('movies')
     .dropTable('genres')
     .dropTable('users')
     .dropTable('user_roles')
-    .dropTable('ratings')
-    .dropTable('actors')
+    .dropTable('filmmakers')
     .dropTable('movie_roles');
 };

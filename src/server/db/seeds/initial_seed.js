@@ -2,9 +2,8 @@ exports.seed = knex => {
   return seedUserRoles()
     .then(seedGenres)
     .then(seedMovieRoles)
-    .then(seedRatings)
     .then(seedUsers)
-    .then(seedActors)
+    .then(seedFilmmakers)
     .then(seedMovies)
     .then(seedMovieGenres)
     .then(seedMovieMakers);
@@ -51,25 +50,6 @@ exports.seed = knex => {
       );
   }
 
-  function seedRatings() {
-    return knex('ratings')
-      .del()
-      .then(() =>
-        knex('ratings').insert([
-          { rating: '1' },
-          { rating: '2' },
-          { rating: '3' },
-          { rating: '4' },
-          { rating: '5' },
-          { rating: '6' },
-          { rating: '7' },
-          { rating: '8' },
-          { rating: '9' },
-          { rating: '10' }
-        ])
-      );
-  }
-
   function seedUsers() {
     return knex('users')
       .del()
@@ -103,11 +83,11 @@ exports.seed = knex => {
       );
   }
 
-  function seedActors() {
-    return knex('actors')
+  function seedFilmmakers() {
+    return knex('filmmakers')
       .del()
       .then(() =>
-        knex('actors').insert([
+        knex('filmmakers').insert([
           {
             name: 'Tom Hardy',
             age: 39,
@@ -162,9 +142,9 @@ exports.seed = knex => {
       .del()
       .then(() =>
         knex('movie_makers').insert([
-          { movie_id: 1, actor_id: 1, role_id: 1 },
-          { movie_id: 1, actor_id: 4, role_id: 1 },
-          { movie_id: 4, actor_id: 1, role_id: 1 }
+          { movie_id: 1, filmmaker_id: 1, role_id: 1 },
+          { movie_id: 1, filmmaker_id: 4, role_id: 1 },
+          { movie_id: 4, filmmaker_id: 1, role_id: 1 }
         ])
       );
   }

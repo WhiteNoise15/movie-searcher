@@ -34,20 +34,20 @@ function deleteMovie(id) {
 
 function getMovieActors(id) {
   return knex('movie_makers')
-    .join('actors', 'movie_makers.actor_id', 'actors.id')
+    .join('filmmakers', 'movie_makers.filmmaker_id', 'filmmakers.id')
     .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
     .where('movie_makers.movie_id', id)
     .andWhere('movie_roles.role', 'Actor')
-    .select(['actors.name', 'actors.sex', 'actors.age']);
+    .select(['filmmakers.name', 'filmmakers.sex', 'filmmakers.age']);
 }
 
 function getMovieStaff(id) {
   knex('movie_makers')
-    .join('actors', 'movie_makers.actor_id', 'actors.id')
+    .join('filmmakers', 'movie_makers.filmmaker_id', 'filmmakers.id')
     .join('movie_roles', 'movie_makers.role_id', 'movie_roles.id')
     .where('movie_makers.movie_id', id)
     .andWhereNot('movie_roles.role', 'Actor')
-    .select(['actors.name', 'actors.sex', 'actors.age']);
+    .select(['filmmakers.name', 'filmmakers.sex', 'filmmakers.age']);
 }
 
 function getMovieGenres(id) {
