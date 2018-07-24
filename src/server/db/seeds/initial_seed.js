@@ -1,11 +1,10 @@
-exports.seed = (knex, Promise) => {
+exports.seed = knex => {
   return seedUserRoles()
     .then(seedGenres)
     .then(seedMovieRoles)
     .then(seedRatings)
     .then(seedUsers)
     .then(seedActors)
-    .then(seedActorsRoles)
     .then(seedMovies)
     .then(seedMovieGenres)
     .then(seedMovieMakers);
@@ -133,19 +132,6 @@ exports.seed = (knex, Promise) => {
       );
   }
 
-  function seedActorsRoles() {
-    return knex('actor_roles')
-      .del()
-      .then(() =>
-        knex('actor_roles').insert([
-          { actor_id: 1, role_id: 1 },
-          { actor_id: 2, role_id: 1 },
-          { actor_id: 3, role_id: 1 },
-          { actor_id: 4, role_id: 1 }
-        ])
-      );
-  }
-
   function seedMovies() {
     return knex('movies')
       .del()
@@ -165,6 +151,7 @@ exports.seed = (knex, Promise) => {
       .then(() =>
         knex('movies_genres').insert([
           { movie_id: 1, genre_id: 5 },
+          { movie_id: 1, genre_id: 2 },
           { movie_id: 2, genre_id: 2 }
         ])
       );
@@ -175,6 +162,7 @@ exports.seed = (knex, Promise) => {
       .del()
       .then(() =>
         knex('movie_makers').insert([
+          { movie_id: 1, actor_id: 1, role_id: 1 },
           { movie_id: 1, actor_id: 4, role_id: 1 },
           { movie_id: 4, actor_id: 1, role_id: 1 }
         ])
