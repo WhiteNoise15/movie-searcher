@@ -6,10 +6,15 @@ function getAllMovies() {
 
 function getSingleMovie(id) {
   return knex('movies')
-    .select(['genres.name', 'movies.id', 'movies.name as movieName'])
-    .join('movies_genres', 'movies.id', 'movies_genres.movie_id')
-    .join('genres', 'movies_genres.genre_id', 'genres.id')
-    .where({ 'movies.id': parseInt(id, 10) });
+    .innerJoin('movies_genres', 'movies.id', 'movies_genres.movie_id')
+    .innerJoin('genres', 'movies_genres.genre_id', 'genres.id')
+    .where({ 'movies.id': parseInt(id, 10) })
+    .select([
+      'movies.id',
+      'movies.name as movieName',
+      knex.raw('json_agg(genres.*) as genres')
+    ])
+    .groupBy('movies.id', 'movies.name');
 }
 
 function addMovie(movie) {
