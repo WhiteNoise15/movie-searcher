@@ -6,14 +6,10 @@ function getAllMovies() {
 
 function getSingleMovie(id) {
   return knex('movies')
-    .innerJoin('movies_genres', 'movies.id', 'movies_genres.movie_id')
-    .innerJoin('genres', 'movies_genres.genre_id', 'genres.id')
+    .innerJoin('movie_genres', 'movies.id', 'movie_genres.movie_id')
+    .innerJoin('genres', 'movie_genres.genre_id', 'genres.id')
     .where({ 'movies.id': parseInt(id, 10) })
-    .select([
-      'movies.id',
-      'movies.name as movieName',
-      knex.raw('json_agg(genres.*) as genres')
-    ])
+    .select(['movies.*', knex.raw('json_agg(genres.*) as genres')])
     .groupBy('movies.id', 'movies.name');
 }
 
@@ -56,16 +52,16 @@ function getMovieStaff(id) {
 }
 
 function getMovieGenres(id) {
-  return knex('movies_genres')
-    .join('genres', 'movies_genres.genre_id', 'genres.id')
+  return knex('movie_genres')
+    .join('genres', 'movie_genres.genre_id', 'genres.id')
     .select('genres.name')
-    .where('movies_genres.movie_id', id);
+    .where('movie_genres.movie_id', id);
 }
 
 function getMovieReviews(id) {
   return knex('movies')
-    .join('movie_reviews', 'movie_reviews', 'movies.id')
-    .select('movie_reviews.review')
+    .join('movie_reviews', 'movie_reviews.movie_id', 'movies.id')
+    .select('movie_reviews.*')
     .where('movie_reviews.movie_id', id);
 }
 
