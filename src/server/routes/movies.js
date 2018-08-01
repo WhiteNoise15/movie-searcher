@@ -186,4 +186,29 @@ router.get(`/:id/genres`, async ctx => {
   }
 });
 
+router.get(`/:id/reviews`, async ctx => {
+  try {
+    const reviews = await queries.getMovieReviews(ctx.params.id);
+    if (reviews.length) {
+      ctx.status = 200;
+      ctx.body = {
+        status: 'success',
+        data: reviews
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        status: 'error',
+        message: 'Movie does not have any genre'
+      };
+    }
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: err.message || 'Sorry, an error has occured'
+    };
+  }
+});
+
 module.exports = router;

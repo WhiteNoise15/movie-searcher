@@ -62,6 +62,13 @@ function getMovieGenres(id) {
     .where('movies_genres.movie_id', id);
 }
 
+function getMovieReviews(id) {
+  return knex('movies')
+    .join('movie_reviews', 'movie_reviews', 'movies.id')
+    .select('movie_reviews.review')
+    .where('movie_reviews.movie_id', id);
+}
+
 module.exports = {
   getAllMovies,
   getSingleMovie,
@@ -70,5 +77,6 @@ module.exports = {
   deleteMovie,
   getMovieActors,
   getMovieGenres,
-  getMovieStaff
+  getMovieStaff,
+  getMovieReviews
 };

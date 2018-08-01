@@ -6,7 +6,8 @@ exports.seed = knex => {
     .then(seedFilmmakers)
     .then(seedMovies)
     .then(seedMovieGenres)
-    .then(seedMovieMakers);
+    .then(seedMovieMakers)
+    .then(seedMovieReviews);
 
   function seedUserRoles() {
     return knex('user_roles')
@@ -126,10 +127,10 @@ exports.seed = knex => {
   }
 
   function seedMovieGenres() {
-    return knex('movies_genres')
+    return knex('movie_genres')
       .del()
       .then(() =>
-        knex('movies_genres').insert([
+        knex('movie_genres').insert([
           { movie_id: 1, genre_id: 5 },
           { movie_id: 1, genre_id: 2 },
           { movie_id: 2, genre_id: 2 }
@@ -145,6 +146,40 @@ exports.seed = knex => {
           { movie_id: 1, filmmaker_id: 1, role_id: 1 },
           { movie_id: 1, filmmaker_id: 4, role_id: 1 },
           { movie_id: 4, filmmaker_id: 1, role_id: 1 }
+        ])
+      );
+  }
+
+  function seedMovieReviews() {
+    return knex('movie_reviews')
+      .del()
+      .then(() =>
+        knex('movie_reviews').insert([
+          {
+            movie_id: 1,
+            user_id: 1,
+            review: 'Test review for movie 1 by user 1'
+          },
+          {
+            movie_id: 1,
+            user_id: 2,
+            review: 'Test review for movie 1 by user 2'
+          },
+          {
+            movie_id: 1,
+            user_id: 3,
+            review: 'Test review for movie 1 by user 3'
+          },
+          {
+            movie_id: 2,
+            user_id: 3,
+            review: 'Test review for movie 2 by user 3'
+          },
+          {
+            movie_id: 2,
+            user_id: 4,
+            review: 'Test review for movie 2 by user 4'
+          }
         ])
       );
   }

@@ -49,6 +49,7 @@ exports.up = function up(knex) {
       table.string('name');
       table.string('email').unique();
       table.string('password');
+      table.string('image');
       table
         .integer('role_id')
         .unsigned()
@@ -77,6 +78,7 @@ exports.up = function up(knex) {
         .unsigned();
       table.string('name').notNullable();
       table.integer('year').unsigned();
+      table.string('image');
     });
   }
 
@@ -103,7 +105,7 @@ exports.up = function up(knex) {
   }
 
   function createMoviesGenresTable() {
-    return knex.schema.createTable('movies_genres', table => {
+    return knex.schema.createTable('movie_genres', table => {
       table
         .increments('id')
         .primary()
@@ -176,7 +178,7 @@ exports.down = function down(knex) {
     .dropTable('movie_makers')
     .dropTable('movie_ratings')
     .dropTable('movie_reviews')
-    .dropTable('movies_genres')
+    .dropTable('movie_genres')
     .dropTable('movies')
     .dropTable('genres')
     .dropTable('users')
