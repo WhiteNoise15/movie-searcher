@@ -3,13 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./src/server/index.js",
+    "dev": "nodemon --exec babel-node src/server/index.js",
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "keywords": [],
   "author": "Yan Zaytsev",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.55",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/node": "^7.0.0-beta.55",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "babel-plugin-import-graphql": "^2.6.2",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "eslint": "^5.0.1",
@@ -18,10 +24,11 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.18.3"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55",
+    "graphql": "^0.13.2",
     "knex": "^0.14.6",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
