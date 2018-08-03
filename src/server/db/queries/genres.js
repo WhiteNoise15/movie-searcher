@@ -1,4 +1,5 @@
 const knex = require('../connection');
+const { paginator } = require('../../utils/knexUtils');
 
 function getAllGenres() {
   return knex('genres').select('*');
@@ -30,12 +31,21 @@ function deleteGenre(id) {
     .returning('*');
 }
 
-function getGenreMovies()
+function getGenreMovies(id, page, perPage) {
+  const query = knex('genres')
+    .innerJoin('movie_genres', 'movie_genres.genre_id', 'genres.id')
+    .innerJoin('movies', 'movie_genres.movie_id', 'movies.id')
+    .select('movies.*')
+    .where({ 'genres.id': parseInt(id, 10) });
+
+  return paginator(knex)(query, page, perPage);
+}
 
 module.exports = {
   getAllGenres,
   getGenre,
   addGenre,
   updateGenre,
-  deleteGenre
+  deleteGenre,
+  getGenreMovies
 };

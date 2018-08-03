@@ -6,11 +6,21 @@ const router = new Router({ prefix: BASE_URL });
 
 router.get('/', async ctx => {
   try {
-    const movies = await queries.getAllMovies();
-    ctx.body = {
-      status: 'success',
-      data: movies
-    };
+    const { page, perPage } = ctx.query;
+    const { data, pagination } = await queries.getAllMovies(page, perPage);
+    if (data && data.length && pagination) {
+      ctx.body = {
+        status: 'success',
+        data,
+        pagination
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        status: ctx.status,
+        error: 'No movies'
+      };
+    }
   } catch (err) {
     console.log(err);
   }

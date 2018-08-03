@@ -1,7 +1,9 @@
 const knex = require('../connection');
+const { paginator } = require('../../utils/knexUtils');
 
-function getAllMovies() {
-  return knex('movies').select('*');
+function getAllMovies(page, perPage) {
+  const query = knex('movies').select('*');
+  return paginator(knex)(query, page, perPage);
 }
 
 function getSingleMovie(id) {
